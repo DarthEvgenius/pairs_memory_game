@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pairs Game</title>
+    <script defer src="pairs.bundle.js"></script>
+    <link rel="stylesheet" href="pairs.css">
+</head>
+<body>
+    
+    
+
+    <div class="wrapper">
+        
+        <div class="start_controls">
+            <h1 class="main_title">Pairs Game</h1>
+            <button class="start_button btn">Start the Game</button>
+            <div class="game_options">
+                <label for="difficulty_options">Difficulty:
+                    <select id="difficulty_options" type="select">
+                        <option value="2">Easy</option>
+                        <option value="8">Normal</option>
+                        <option value="10">Hard</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        
+        <div class="game_container">            
+        </div>    
+
+        <div class="game_controls">
+            <button class="refresh_btn btn">Refresh cards</button>
+            <button class="reset_btn btn">Reset Game</button>
+        </div>          
+    </div>
+
+    <div class="win_modal">
+        <h2>You've got it!</h2>
+    </div>
+
+    
+</body>
+</html>

@@ -1,0 +1,84 @@
+const gulp = require('gulp');
+// browser reload
+const browserSync = require('browser-sync').create();
+
+const autoprefixer = require('gulp-autoprefixer');
+const clean = require('gulp-clean');
+// built-in node.js module
+const fileSystem = require('fs');
+
+// js
+const webpack = require('webpack-stream');
+const babel = require('gulp-babel');
+
+
+// live server
+gulp.task('startServer', function() {
+    gulp.src('./docs')
+        .pipe(server({
+            livereload: true,
+            defaultFile: 'pairs.html',
+            open: true,
+        }));
+});
+
+gulp.task('server', function() {
+    // browser reload
+    browserSync.init({
+      server: {
+          baseDir: "docs/"
+      }
+    });
+});
+
+
+// clean dist folder, if it exists
+gulp.task('clean', (done)=>{
+    if (fileSystem.existsSync('./docs')) {
+        return gulp.src('./docs', {read:false})
+        .pipe(clean({
+            force: true
+        }))
+    }
+    done();
+});
+
+// html copy
+gulp.task('html', () => {
+    return gulp
+        .src('./src/**/*.html', {base: './src'})        
+        .pipe(gulp.dest('./docs'))
+});
+
+// css copy
+gulp.task('css', ()=> {
+    return gulp
+        .src('./src/**/*.css', {base: './src'})
+        .pipe(autoprefixer())
+        .pipe(gulp.dest('./docs'))
+});
+
+// js
+gulp.task('js', function() {
+    return gulp
+        // if we have several entry pages, add them to config
+        .src('./src/**/*.mjs')
+        // install <--- npm i -D @babel/core @babel/preset-env --->
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        // give path to webpack.config
+        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(gulp.dest('./docs'))
+})
+
+
+gulp.task('default', gulp.series(
+    'clean',
+    gulp.parallel(
+        'html', 
+        'css',
+        'js'
+    ),
+    gulp.parallel('startServer')
+))

@@ -1,0 +1,37 @@
+.win_modal {
+    position: absolute;
+    left: 50%;
+    translate: -50%;
+    top: -150%;
+    padding-inline: 2em;
+    padding-block: 0.1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 1s;
+    box-shadow: var(--win-color) 0px 54px 55px, var(--win-color) 0px -12px 30px, var(--win-color) 0px 4px 6px, var(--win-color) 0px 12px 13px, var(--win-color) 0px -3px 5px;
+    border-radius: 20px;
+    background-color: var(--win-color);
+    color: hsl(0, 66%, 42%);
+}
+
+.win_modal.show {
+    left: 50%;
+    top: 40%;
+    transition: var(--transition);
+    animation-name: grow;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+.win_modal h1 {
+    background-color: var(--win-color);
+    padding-block: 1em;
+    padding-inline: 3em;
+    border-radius: 20px;
+}
+
+@keyframes grow {
+    0% { scale: 0.5; }
+    100% { scale: 2; }
+}

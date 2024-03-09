@@ -1,0 +1,75 @@
+/* buttons and control elements */
+
+.btn {    
+    padding-inline: 2em;
+    padding-block: 1em;
+    border-radius: 20px;
+    background-color: hsl(0, 0%, 66%);
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: hsl(0, 0%, 76%);
+}
+
+.btn:active {
+    background-color: hsl(0, 0%, 56%);
+}
+
+
+.reset_btn, .refresh_btn {
+    padding-inline: 1.25em;
+    padding-block: 0.75em;
+    font-size: 1rem;
+}
+
+.start_controls {
+    align-self: center;
+    border-radius: 20px;
+    background-color: hsl(0, 0%, 90%);
+    padding: 0.3em;
+    display: grid;
+    gap: 0.75em;
+    place-items: center;
+    transition: var(--transition);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.main_title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+select {
+    background-color: #ffffffe2;
+    border-radius: 10px;
+}
+
+.game_controls {
+    max-width: 80%;
+    text-align: center;
+    justify-self: center;
+    align-self: start;
+    display: grid;
+    gap: 0.75rem;
+    transition: var(--transition);
+
+    /* remove after start! */
+    display: none;
+}
+
+.hide {
+    translate: 100vw;
+    scale: 0;
+    transition: var(--transition);
+}
+
+.start_controls.hide {
+    scale: 0;
+}
+
+.game_container.hide {
+    translate: 0;
+}

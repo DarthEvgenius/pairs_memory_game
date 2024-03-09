@@ -1,0 +1,106 @@
+/* game container and cards */
+
+.game_container {
+    animation-name: appear;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+    display: grid;
+    gap: clamp(0.75rem, 0.75rem + 1vw, 1.5rem);
+    grid-template-columns: repeat(4, 1fr);
+    transform-style: preserve-3d;
+    perspective: 500px;
+}
+
+@keyframes appear {
+    0% {
+        transform: scale(0.3);
+    }
+
+    100% {
+        transform: scale(1) rotatex(1turn);
+    }
+}
+
+.game_container--hard {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.game_card {
+    font-size: clamp(2rem, 1rem + 10vw, 2rem);
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 10px;
+    background-color: hsl(0, 0%, 50%);
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: 0.4s ease-in-out;
+    transform: rotateY(180deg);
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+}
+
+.game_card.open {
+    transform: rotateY(0deg);
+}
+
+.game_card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background-color: hsl(0, 1%, 25%);
+    transition: 0.4s;
+    transform: rotateY(0deg);
+    backface-visibility: hidden;
+
+    opacity: .5;
+}
+
+.open::after {
+    transform: rotateY(180deg);
+}
+
+.game_card.match {
+    transform: rotateY(0deg);
+    animation-name: match;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.match::after {
+    transform: rotateY(180deg);
+}
+
+@keyframes match {
+    0%   { scale: 1; }
+    50%  { 
+        scale: 1.1; 
+        opacity: 1;
+    }
+    100% { 
+        scale: 1; 
+        opacity: 0.4;
+        background-color: var(--win-color);
+    }
+}
+
+.game_container.win {
+    animation-name: win;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes win {
+    0%   { scale: 1; }
+    100% { 
+        scale: 1.25;
+    }
+  }
+
+  

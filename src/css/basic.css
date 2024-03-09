@@ -1,0 +1,23 @@
+/* basic layout */
+:root {
+    font-size: clamp(1rem, 0.5rem + 2vw, 1.75rem);
+    font-family: sans-serif;
+}
+
+body {
+    height: 100vh;
+    background-color: whitesmoke;
+    padding: 15px;
+}
+.wrapper {
+    max-width: 1200px;
+    min-height: 100vh;
+    margin-inline: auto;
+    padding-block: 15px;
+    display: grid;
+    gap: clamp(1rem, 1rem + 1vw, 3rem);
+    align-items: center;
+    justify-content: center;   
+    position: relative; 
+}
+
