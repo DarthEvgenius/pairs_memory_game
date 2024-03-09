@@ -159,7 +159,7 @@ function createGameInterface(startInterface) {
     // hide start buttons
     startInterface.startControls.classList.add('hide');    
     startInterface.gameControls.classList.remove('hide');
-    gameControls.style.display = 'grid';
+    startInterface.gameControls.style.display = 'grid';
 }
 
 // creates new game field 
