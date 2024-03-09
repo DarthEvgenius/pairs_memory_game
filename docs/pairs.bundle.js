@@ -132,7 +132,8 @@ function createStartInterface() {
     gameContainer.innerHTML = '';
     
     const gameControls = document.querySelector('.game_controls');
-    gameControls.classList.add('hide');
+    gameControls.style.display = 'grid';
+    // gameControls.classList.add('hide');
     
 
     // start controls element
@@ -159,7 +160,6 @@ function createGameInterface(startInterface) {
     // hide start buttons
     startInterface.startControls.classList.add('hide');    
     startInterface.gameControls.classList.remove('hide');
-    startInterface.gameControls.style.display = 'grid';
 }
 
 // creates new game field 
