@@ -12,7 +12,7 @@ export function createStartInterface() {
     
     const gameControls = document.querySelector('.game_controls');
     gameControls.style.display = 'grid';
-    // gameControls.classList.add('hide');
+    gameControls.classList.add('hide');
     
 
     // start controls element
