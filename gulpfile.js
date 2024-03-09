@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 // browser reload
-const browserSync = require('browser-sync').create();
+const server = require('gulp-server-livereload');
 
 const autoprefixer = require('gulp-autoprefixer');
 const clean = require('gulp-clean');
@@ -17,19 +17,12 @@ gulp.task('startServer', function() {
     gulp.src('./docs')
         .pipe(server({
             livereload: true,
-            defaultFile: 'pairs.html',
+            defaultFile: 'index.html',
             open: true,
         }));
 });
 
-gulp.task('server', function() {
-    // browser reload
-    browserSync.init({
-      server: {
-          baseDir: "docs/"
-      }
-    });
-});
+
 
 
 // clean dist folder, if it exists
