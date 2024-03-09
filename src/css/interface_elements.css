@@ -52,7 +52,9 @@ select {
     text-align: center;
     justify-self: center;
     align-self: start;
-    display: grid;
+
+    /* required value! */
+    /* display: grid; */
     gap: 0.75rem;
     transition: var(--transition);
 
