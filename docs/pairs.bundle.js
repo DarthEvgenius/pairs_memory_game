@@ -405,18 +405,19 @@ startInterface.refreshBtn.addEventListener('click', ()=>{
 });
 
 startInterface.resetBtn.addEventListener('click', () => {  
-    const animated = startInterface.gameContainer.classList.add('hide');
-    // animated.addEventListener('animationend', () => {
-    //     console.log('end');
-        
-    //     resetInterface(startInterface);    
-    //     createStartInterface();
-    // });
-
-    setTimeout(()=>{
+    const animated = startInterface.gameContainer;
+    animated.classList.add('hide');
+    
+    animated.addEventListener('transitionend', () => {        
         (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetInterface)(startInterface);    
         (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();
-    }, 500)
+    });
+    
+    // this approach runs with some lags
+    // setTimeout(()=>{
+    //     resetInterface(startInterface);    
+    //     createStartInterface();
+    // }, 500)
     
 });
 

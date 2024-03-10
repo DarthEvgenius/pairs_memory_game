@@ -63,7 +63,14 @@ gulp.task('js', function() {
         // give path to webpack.config
         .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('./docs'))
-})
+});
+
+// watcher
+gulp.task('watch', ()=>{
+    gulp.watch('./src/**/*.css', gulp.parallel('css'));
+    gulp.watch('./src/**/*.html', gulp.parallel('html'));
+    gulp.watch('./src/**/*.mjs', gulp.parallel('js'));
+});
 
 
 gulp.task('default', gulp.series(
@@ -73,5 +80,5 @@ gulp.task('default', gulp.series(
         'css',
         'js'
     ),
-    gulp.parallel('startServer')
+    gulp.parallel('watch', 'startServer')
 ))
