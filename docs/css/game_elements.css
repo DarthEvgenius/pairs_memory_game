@@ -59,7 +59,8 @@
     transform: rotateY(0deg);
     backface-visibility: hidden;
 
-    opacity: .5;
+    /* for easy development */
+    /* opacity: .5; */
 }
 
 .open::after {
