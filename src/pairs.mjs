@@ -2,6 +2,7 @@ import { createStartInterface, createGameField, createGameInterface } from './js
 import { createGameConditions } from './js/conditions.mjs';
 import { startGame } from './js/gameLogic.mjs';
 import { resetInterface } from "./js/resetGame.mjs";
+import { log } from 'console';
 
 // game container
 // start button,
@@ -28,7 +29,14 @@ startInterface.refreshBtn.addEventListener('click', ()=>{
 });
 
 startInterface.resetBtn.addEventListener('click', () => {  
-    startInterface.gameContainer.classList.add('hide');
+    const animated = startInterface.gameContainer.classList.add('hide');
+    // animated.addEventListener('animationend', () => {
+    //     console.log('end');
+        
+    //     resetInterface(startInterface);    
+    //     createStartInterface();
+    // });
+
     setTimeout(()=>{
         resetInterface(startInterface);    
         createStartInterface();

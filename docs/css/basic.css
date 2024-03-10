@@ -13,7 +13,7 @@ body {
     max-width: 1200px;
     min-height: 100vh;
     margin-inline: auto;
-    padding-block: 15px;
+    padding: 15px;
     display: grid;
     gap: clamp(1rem, 1rem + 1vw, 3rem);
     align-items: center;

@@ -1,6 +1,15 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "?1eae":
+/*!*************************!*\
+  !*** console (ignored) ***!
+  \*************************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
 
 /***/ "./src/js/conditions.mjs":
 /*!*******************************!*\
@@ -8,6 +17,7 @@
   \*******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createGameConditions: () => (/* binding */ createGameConditions)
@@ -42,6 +52,7 @@ function createGameConditions(startInterface) {
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   startGame: () => (/* binding */ startGame)
@@ -111,6 +122,7 @@ function startGame(startInterface, gameConditions) {
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createGameField: () => (/* binding */ createGameField),
@@ -231,6 +243,7 @@ function createCard(value) {
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   matchCounter: () => (/* binding */ matchCounter),
@@ -271,6 +284,7 @@ function noMatch(selectedCards, gameConditions) {
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   resetInterface: () => (/* binding */ resetInterface)
@@ -348,8 +362,9 @@ function resetInterface(startInterface) {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
 /*!***********************!*\
   !*** ./src/pairs.mjs ***!
   \***********************/
@@ -358,6 +373,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_conditions_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/conditions.mjs */ "./src/js/conditions.mjs");
 /* harmony import */ var _js_gameLogic_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/gameLogic.mjs */ "./src/js/gameLogic.mjs");
 /* harmony import */ var _js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/resetGame.mjs */ "./src/js/resetGame.mjs");
+/* harmony import */ var console__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! console */ "?1eae");
+
 
 
 
@@ -388,7 +405,14 @@ startInterface.refreshBtn.addEventListener('click', ()=>{
 });
 
 startInterface.resetBtn.addEventListener('click', () => {  
-    startInterface.gameContainer.classList.add('hide');
+    const animated = startInterface.gameContainer.classList.add('hide');
+    // animated.addEventListener('animationend', () => {
+    //     console.log('end');
+        
+    //     resetInterface(startInterface);    
+    //     createStartInterface();
+    // });
+
     setTimeout(()=>{
         (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetInterface)(startInterface);    
         (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();

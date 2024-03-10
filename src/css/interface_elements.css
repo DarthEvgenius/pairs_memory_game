@@ -40,11 +40,16 @@
 .main_title {
     font-size: 1.5rem;
     font-weight: bold;
+    text-align: center;
 }
 
 select {
     background-color: #ffffffe2;
     border-radius: 10px;
+}
+
+.game_options {
+    text-align: center;
 }
 
 .game_controls {

@@ -16,6 +16,12 @@ const config = {
                 use: ['style-loader', 'css-loader']
             }
         ]
+    },
+    resolve: {
+        // ... rest of the resolve config
+        fallback: {
+          "console": false
+        }
     }
 }
 
