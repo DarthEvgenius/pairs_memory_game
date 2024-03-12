@@ -374,7 +374,8 @@ startInterface.refreshBtn.onclick = newGame;
 
 startInterface.resetBtn.addEventListener('click', function() {  
     const animated = startInterface.gameContainer;
-    animated.className = animated.className + ' hide';
+    let n = animated.className + ' hide';
+    animated.className = n;
     
     animated.addEventListener('transitionend', () => {        
         (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetInterface)(startInterface);    
