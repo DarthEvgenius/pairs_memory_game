@@ -1,15 +1,6 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
-
-/***/ "?1eae":
-/*!*************************!*\
-  !*** console (ignored) ***!
-  \*************************/
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
 
 /***/ "./src/js/conditions.mjs":
 /*!*******************************!*\
@@ -17,7 +8,6 @@
   \*******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createGameConditions: () => (/* binding */ createGameConditions)
@@ -52,7 +42,6 @@ function createGameConditions(startInterface) {
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   startGame: () => (/* binding */ startGame)
@@ -122,7 +111,6 @@ function startGame(startInterface, gameConditions) {
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createGameField: () => (/* binding */ createGameField),
@@ -141,7 +129,7 @@ __webpack_require__.r(__webpack_exports__);
     // difficulty level
 function createStartInterface() {
     const gameContainer = document.querySelector('.game_container');
-    gameContainer.innerHTML = '';
+
     
     const gameControls = document.querySelector('.game_controls');
     gameControls.style.display = 'grid';
@@ -243,7 +231,6 @@ function createCard(value) {
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   matchCounter: () => (/* binding */ matchCounter),
@@ -284,13 +271,11 @@ function noMatch(selectedCards, gameConditions) {
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   resetInterface: () => (/* binding */ resetInterface)
 /* harmony export */ });
 // reset game interface DOM elements
-// reset game objects
 
 function resetInterface(startInterface) {
     document.querySelector('.win_modal').classList.remove('show');
@@ -362,9 +347,8 @@ function resetInterface(startInterface) {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-"use strict";
 /*!***********************!*\
   !*** ./src/pairs.mjs ***!
   \***********************/
@@ -373,8 +357,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_conditions_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/conditions.mjs */ "./src/js/conditions.mjs");
 /* harmony import */ var _js_gameLogic_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/gameLogic.mjs */ "./src/js/gameLogic.mjs");
 /* harmony import */ var _js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/resetGame.mjs */ "./src/js/resetGame.mjs");
-/* harmony import */ var console__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! console */ "?1eae");
-
 
 
 
@@ -386,25 +368,11 @@ __webpack_require__.r(__webpack_exports__);
 // difficulty select element
 const startInterface = (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();
 
-// pairsArray
-// winCounter
-// waiter
-// number of pairs (difficulty level)
-let gameConditions = null;
 
-// card field
-let gameField = null;
+startInterface.startBtn.onclick = newGame;
+startInterface.refreshBtn.onclick = newGame;
 
-
-startInterface.startBtn.onclick = () => {
-    newGame();
-}
-
-startInterface.refreshBtn.addEventListener('click', ()=>{
-    newGame();
-});
-
-startInterface.resetBtn.addEventListener('click', () => {  
+startInterface.resetBtn.addEventListener('click', function() {  
     const animated = startInterface.gameContainer;
     animated.classList.add('hide');
     
@@ -422,10 +390,15 @@ startInterface.resetBtn.addEventListener('click', () => {
 });
 
 function newGame() {
-    gameConditions = (0,_js_conditions_mjs__WEBPACK_IMPORTED_MODULE_1__.createGameConditions)(startInterface);
+    // create game conditions
+        // pairsArray
+        // winCounter
+        // waiter
+        // number of pairs (difficulty level)
+    let gameConditions = (0,_js_conditions_mjs__WEBPACK_IMPORTED_MODULE_1__.createGameConditions)(startInterface);
     (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createGameInterface)(startInterface, gameConditions);
-    gameField = (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createGameField)(gameConditions, startInterface);
-    (0,_js_gameLogic_mjs__WEBPACK_IMPORTED_MODULE_2__.startGame)(startInterface, gameConditions, gameField);
+    (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createGameField)(gameConditions, startInterface);
+    (0,_js_gameLogic_mjs__WEBPACK_IMPORTED_MODULE_2__.startGame)(startInterface, gameConditions);
 }
 })();
 

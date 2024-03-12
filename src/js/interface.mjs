@@ -8,7 +8,7 @@ import { resetInterface } from "./resetGame.mjs";
     // difficulty level
 export function createStartInterface() {
     const gameContainer = document.querySelector('.game_container');
-    gameContainer.innerHTML = '';
+
     
     const gameControls = document.querySelector('.game_controls');
     gameControls.style.display = 'grid';
