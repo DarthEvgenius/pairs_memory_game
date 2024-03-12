@@ -13,13 +13,14 @@ const startInterface = createStartInterface();
 startInterface.startBtn.onclick = newGame;
 startInterface.refreshBtn.onclick = newGame;
 startInterface.resetBtn.addEventListener('click', function() {  
+    
     const animated = startInterface.gameContainer;
     animated.classList.add('hide');
     
-    animated.addEventListener('transitionend', () => {        
+    setTimeout(() => {        
         resetInterface(startInterface);    
         createStartInterface();
-    });
+    }, 500);
 });
 
 function newGame() {

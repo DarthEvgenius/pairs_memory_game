@@ -371,22 +371,15 @@ const startInterface = (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createS
 
 startInterface.startBtn.onclick = newGame;
 startInterface.refreshBtn.onclick = newGame;
-
 startInterface.resetBtn.addEventListener('click', function() {  
+    
     const animated = startInterface.gameContainer;
     animated.classList.add('hide');
     
-    animated.addEventListener('transitionend', () => {        
+    setTimeout(() => {        
         (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetInterface)(startInterface);    
         (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();
-    });
-    
-    // this approach runs with some lags
-    // setTimeout(()=>{
-    //     resetInterface(startInterface);    
-    //     createStartInterface();
-    // }, 500)
-    
+    }, 500);
 });
 
 function newGame() {

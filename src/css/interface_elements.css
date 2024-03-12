@@ -70,7 +70,7 @@ select {
 .hide {
     translate: 100vw;
     scale: 0;
-    transition: var(--transition);
+    transition: translate 800ms linear, scale 800ms linear;
 }
 
 .start_controls.hide {
@@ -79,5 +79,6 @@ select {
 
 .game_container.hide {
     translate: 0;
-    transition: var(--transition-linear);
+    opacity: 0;
+    transition: scale 400ms linear, opacity 200ms linear;
 }
