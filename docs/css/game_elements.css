@@ -109,4 +109,8 @@
     }
   }
 
-  
+  .timer_container {
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: sans-serif;
+  }

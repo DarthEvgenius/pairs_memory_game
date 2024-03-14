@@ -65,6 +65,8 @@ label[for="timer_options"] {
 
 .game_options {
     text-align: center;
+    display: grid;
+    gap: 1em;
 }
 
 .game_controls {
