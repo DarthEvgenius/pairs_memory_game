@@ -7,14 +7,16 @@
 
 
 export function createGameConditions(startInterface) {
-    let pairsAmount = +startInterface.difficulty.value;
+    const pairsAmount = +startInterface.difficulty.value;
+    const isTimer = startInterface.timer.checked;
     
     const arr = Array.from({length: pairsAmount}, (elem, i) => i + 1);
     return {
         winCounter: pairsAmount,
         pairsArray: [...arr, ...arr],
         waiter: false,
-        difficulty: pairsAmount
+        difficulty: pairsAmount,
+        isTimer: isTimer
     }
 }
 

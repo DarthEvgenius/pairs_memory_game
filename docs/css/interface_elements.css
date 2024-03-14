@@ -4,8 +4,9 @@
     padding-inline: 2em;
     padding-block: 1em;
     border-radius: 20px;
-    background-color: hsl(0, 0%, 66%);
+    background-color: var(--btn-color);
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .btn:hover {
@@ -46,6 +47,20 @@
 select {
     background-color: #ffffffe2;
     border-radius: 10px;
+}
+
+.checkbox_container {
+    display: flex;
+}
+
+label[for="timer_options"] {
+    margin-right: 0.5em;
+}
+
+#timer_options {
+    cursor: pointer;
+    accent-color: var(--card-back-color);
+    scale: 1.6;
 }
 
 .game_options {

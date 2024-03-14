@@ -21,14 +21,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function createGameConditions(startInterface) {
-    let pairsAmount = +startInterface.difficulty.value;
+    const pairsAmount = +startInterface.difficulty.value;
+    const isTimer = startInterface.timer.checked;
     
     const arr = Array.from({length: pairsAmount}, (elem, i) => i + 1);
     return {
         winCounter: pairsAmount,
         pairsArray: [...arr, ...arr],
         waiter: false,
-        difficulty: pairsAmount
+        difficulty: pairsAmount,
+        isTimer: isTimer
     }
 }
 
@@ -48,16 +50,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _matchHandler_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./matchHandler.mjs */ "./src/js/matchHandler.mjs");
 /* harmony import */ var _interface_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./interface.mjs */ "./src/js/interface.mjs");
+/* harmony import */ var _timer_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./timer.mjs */ "./src/js/timer.mjs");
+/* harmony import */ var _resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resetGame.mjs */ "./src/js/resetGame.mjs");
+
+
 
 
 
 function startGame(startInterface, gameConditions) {
     gameConditions.waiter = false;
-        
     // array for two opened cards in one turn
     let selectedCards = [];
     const match = (0,_matchHandler_mjs__WEBPACK_IMPORTED_MODULE_0__.matchCounter)();
+    let timerID = null;
 
+    if (gameConditions.isTimer) {
+        const timerContainer = (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.createTimerContainer)(startInterface);
+        const timerCounter = (0,_timer_mjs__WEBPACK_IMPORTED_MODULE_2__.createTimer)(startInterface);
+        
+        timerID = setInterval(() => {
+            if (!(0,_timer_mjs__WEBPACK_IMPORTED_MODULE_2__.updateTimer)(timerContainer, timerCounter, timerID)) {
+                // stop user's interactions with game field
+                startInterface.gameContainer.style.pointerEvents = 'none';
+                (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.loseInterface)(startInterface);
+                setTimeout(() => {
+                    (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(startInterface);
+                }, 4000);
+            }
+            
+        }, 1000);
+
+        startInterface.resetBtn.addEventListener('click', function() {
+            clearInterval(timerID);
+        });
+        startInterface.refreshBtn.addEventListener('click', function() {
+            clearInterval(timerID);
+        });
+    } else {
+        let timerContainer = document.querySelector('.timer_container');
+        if (timerContainer) {
+            timerContainer.innerHTML = '';
+        }
+    }
+    
     // main logic
     startInterface.gameContainer.addEventListener('click', function game(e) {
         // selects only click inside card
@@ -87,11 +122,14 @@ function startGame(startInterface, gameConditions) {
                 // handle CSS classes and update winCounter
                 // check for win case
                 if (match(selectedCards, gameConditions)) {
+                    clearInterval(timerID);
                     selectedCards.length = 0;
-                    gameConditions.waiter = true;
+                    gameConditions.waiter = true; 
                     startInterface.gameContainer.removeEventListener('click', game);
-                    setTimeout(()=>{ (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.winInterface)(startInterface) }, 500);
-                    
+                    (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.winInterface)(startInterface);
+                    setTimeout(() => {
+                        (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(startInterface);
+                    }, 4000);
                 }
             } else {
                 // pause interactions for complete animation 
@@ -102,6 +140,7 @@ function startGame(startInterface, gameConditions) {
         }
     });    
 }
+
 
 /***/ }),
 
@@ -116,32 +155,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   createGameField: () => (/* binding */ createGameField),
 /* harmony export */   createGameInterface: () => (/* binding */ createGameInterface),
 /* harmony export */   createStartInterface: () => (/* binding */ createStartInterface),
+/* harmony export */   createTimerContainer: () => (/* binding */ createTimerContainer),
+/* harmony export */   loseInterface: () => (/* binding */ loseInterface),
 /* harmony export */   winInterface: () => (/* binding */ winInterface)
 /* harmony export */ });
 /* harmony import */ var _resetGame_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resetGame.mjs */ "./src/js/resetGame.mjs");
-
 // Interface staff
 
-// clear game container
-// returns
-    // game container
-    // start button,
-    // difficulty level
+
+
 function createStartInterface() {
     const gameContainer = document.querySelector('.game_container');
-
     
     const gameControls = document.querySelector('.game_controls');
     gameControls.style.display = 'grid';
     gameControls.classList.add('hide');
     
-
     // start controls element
     const startControls = document.querySelector('.start_controls');
     startControls.classList.remove('hide');
     
-    // get difficulty options
+    // get game options
     const difficultySelect = startControls.querySelector('#difficulty_options');
+    const timer = startControls.querySelector('#timer_options');
 
     return { 
         gameContainer: gameContainer,
@@ -150,7 +186,9 @@ function createStartInterface() {
         startBtn: startBtn(),
         refreshBtn: refreshBtn(),
         resetBtn: resetBtn(),
-        difficulty: difficultySelect
+        difficulty: difficultySelect,
+        timer: timer,
+        timerRange: 60
     };
 }
 
@@ -160,6 +198,22 @@ function createGameInterface(startInterface) {
     // hide start buttons
     startInterface.startControls.classList.add('hide');    
     startInterface.gameControls.classList.remove('hide');
+}
+
+function createTimerContainer(startInterface) {
+    let container = document.querySelector('.timer_container');
+    if (!container) {
+        container = document.createElement('div');
+        container.classList.add('timer_container');
+    } else {
+        container.innerHTML = '';
+    }
+
+    const timer = document.createElement('span');
+    timer.textContent = startInterface.timerRange;
+    container.append(timer);
+    startInterface.gameControls.prepend(container);
+    return timer;    
 }
 
 // creates new game field 
@@ -190,10 +244,15 @@ function createGameField(gameConditions, startInterface) {
     }
 }
 
-// handle win case
+// handle win/lose cases
 function winInterface(startInterface) {
     startInterface.gameContainer.classList.add('win');
     document.querySelector('.win_modal').classList.add('show');
+}
+
+function loseInterface(startInterface) {
+    startInterface.gameContainer.classList.add('lose');
+    document.querySelector('.lose_modal').classList.add('show');
 }
 
 // start button
@@ -273,12 +332,16 @@ function noMatch(selectedCards, gameConditions) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   resetGame: () => (/* binding */ resetGame),
 /* harmony export */   resetInterface: () => (/* binding */ resetInterface)
 /* harmony export */ });
+/* harmony import */ var _interface_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./interface.mjs */ "./src/js/interface.mjs");
 // reset game interface DOM elements
+
 
 function resetInterface(startInterface) {
     document.querySelector('.win_modal').classList.remove('show');
+    document.querySelector('.lose_modal').classList.remove('show');
 
     const newContainer = document.createElement('div');
     newContainer.classList.add('game_container');
@@ -286,7 +349,44 @@ function resetInterface(startInterface) {
     return startInterface.gameContainer = newContainer;
 }
 
+function resetGame(startInterface) {
+    resetInterface(startInterface);    
+    (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();
+}
 
+/***/ }),
+
+/***/ "./src/js/timer.mjs":
+/*!**************************!*\
+  !*** ./src/js/timer.mjs ***!
+  \**************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createTimer: () => (/* binding */ createTimer),
+/* harmony export */   updateTimer: () => (/* binding */ updateTimer)
+/* harmony export */ });
+/* harmony import */ var _interface_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./interface.mjs */ "./src/js/interface.mjs");
+
+
+function createTimer(startInterface) {
+    let timer = startInterface.timerRange;
+    return function() {
+        return --timer;
+    }
+}
+
+function updateTimer(timerContainer, timerCounter, timerID) {
+    const counter = timerCounter();
+    timerContainer.textContent = counter;
+
+    if (counter <= 0) {
+        clearInterval(timerID);
+        return false;
+    }
+    return true;
+}
 
 /***/ })
 
@@ -376,9 +476,8 @@ startInterface.resetBtn.addEventListener('click', function() {
     const animated = startInterface.gameContainer;
     animated.classList.add('hide');
     
-    setTimeout(() => {        
-        (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetInterface)(startInterface);    
-        (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();
+    setTimeout(() => {
+        (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(startInterface);
     }, 500);
 });
 

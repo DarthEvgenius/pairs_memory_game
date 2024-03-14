@@ -1,13 +1,44 @@
 import { matchCounter, noMatch } from './matchHandler.mjs';
-import { winInterface } from './interface.mjs';
+import { winInterface, loseInterface, createTimerContainer } from './interface.mjs';
+import { createTimer, updateTimer } from './timer.mjs';
+import { resetGame } from "./resetGame.mjs";
 
 export function startGame(startInterface, gameConditions) {
     gameConditions.waiter = false;
-        
     // array for two opened cards in one turn
     let selectedCards = [];
     const match = matchCounter();
+    let timerID = null;
 
+    if (gameConditions.isTimer) {
+        const timerContainer = createTimerContainer(startInterface);
+        const timerCounter = createTimer(startInterface);
+        
+        timerID = setInterval(() => {
+            if (!updateTimer(timerContainer, timerCounter, timerID)) {
+                // stop user's interactions with game field
+                startInterface.gameContainer.style.pointerEvents = 'none';
+                loseInterface(startInterface);
+                setTimeout(() => {
+                    resetGame(startInterface);
+                }, 4000);
+            }
+            
+        }, 1000);
+
+        startInterface.resetBtn.addEventListener('click', function() {
+            clearInterval(timerID);
+        });
+        startInterface.refreshBtn.addEventListener('click', function() {
+            clearInterval(timerID);
+        });
+    } else {
+        let timerContainer = document.querySelector('.timer_container');
+        if (timerContainer) {
+            timerContainer.innerHTML = '';
+        }
+    }
+    
     // main logic
     startInterface.gameContainer.addEventListener('click', function game(e) {
         // selects only click inside card
@@ -37,11 +68,14 @@ export function startGame(startInterface, gameConditions) {
                 // handle CSS classes and update winCounter
                 // check for win case
                 if (match(selectedCards, gameConditions)) {
+                    clearInterval(timerID);
                     selectedCards.length = 0;
-                    gameConditions.waiter = true;
+                    gameConditions.waiter = true; 
                     startInterface.gameContainer.removeEventListener('click', game);
-                    setTimeout(()=>{ winInterface(startInterface) }, 500);
-                    
+                    winInterface(startInterface);
+                    setTimeout(() => {
+                        resetGame(startInterface);
+                    }, 4000);
                 }
             } else {
                 // pause interactions for complete animation 

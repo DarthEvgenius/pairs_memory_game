@@ -1,26 +1,21 @@
-import { resetInterface } from "./resetGame.mjs";
 // Interface staff
 
-// clear game container
-// returns
-    // game container
-    // start button,
-    // difficulty level
+import { resetInterface } from "./resetGame.mjs";
+
 export function createStartInterface() {
     const gameContainer = document.querySelector('.game_container');
-
     
     const gameControls = document.querySelector('.game_controls');
     gameControls.style.display = 'grid';
     gameControls.classList.add('hide');
     
-
     // start controls element
     const startControls = document.querySelector('.start_controls');
     startControls.classList.remove('hide');
     
-    // get difficulty options
+    // get game options
     const difficultySelect = startControls.querySelector('#difficulty_options');
+    const timer = startControls.querySelector('#timer_options');
 
     return { 
         gameContainer: gameContainer,
@@ -29,7 +24,9 @@ export function createStartInterface() {
         startBtn: startBtn(),
         refreshBtn: refreshBtn(),
         resetBtn: resetBtn(),
-        difficulty: difficultySelect
+        difficulty: difficultySelect,
+        timer: timer,
+        timerRange: 60
     };
 }
 
@@ -39,6 +36,22 @@ export function createGameInterface(startInterface) {
     // hide start buttons
     startInterface.startControls.classList.add('hide');    
     startInterface.gameControls.classList.remove('hide');
+}
+
+export function createTimerContainer(startInterface) {
+    let container = document.querySelector('.timer_container');
+    if (!container) {
+        container = document.createElement('div');
+        container.classList.add('timer_container');
+    } else {
+        container.innerHTML = '';
+    }
+
+    const timer = document.createElement('span');
+    timer.textContent = startInterface.timerRange;
+    container.append(timer);
+    startInterface.gameControls.prepend(container);
+    return timer;    
 }
 
 // creates new game field 
@@ -69,10 +82,15 @@ export function createGameField(gameConditions, startInterface) {
     }
 }
 
-// handle win case
+// handle win/lose cases
 export function winInterface(startInterface) {
     startInterface.gameContainer.classList.add('win');
     document.querySelector('.win_modal').classList.add('show');
+}
+
+export function loseInterface(startInterface) {
+    startInterface.gameContainer.classList.add('lose');
+    document.querySelector('.lose_modal').classList.add('show');
 }
 
 // start button

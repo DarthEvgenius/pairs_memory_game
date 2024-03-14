@@ -31,14 +31,14 @@
     width: 1.75em;
     height: 1.75em;
     border-radius: 10px;
-    background-color: hsl(0, 0%, 50%);
+    background-color: var(--card-bg-color);
     color: white;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: 0.4s ease-in-out;
+    transition:transform 0.4s ease-in-out;
     transform: rotateY(180deg);
     -webkit-user-select: none;
        -moz-user-select: none;
@@ -54,13 +54,18 @@
     position: absolute;
     inset: 0;
     border-radius: 10px;
-    background-color: hsl(0, 1%, 25%);
+    background-color: var(--card-back-color);
     transition: 0.4s;
     transform: rotateY(0deg);
     backface-visibility: hidden;
 
     /* for easy development */
     /* opacity: .5; */
+}
+
+.game_card:hover::after {
+    background-color: hsl(0, 1%, 35%);
+    scale: 1.1;
 }
 
 .open::after {

@@ -1,4 +1,5 @@
-.win_modal {
+.win_modal,
+.lose_modal {
     position: absolute;
     left: 50%;
     translate: -50%;
@@ -9,13 +10,24 @@
     justify-content: center;
     align-items: center;
     transition: 1s;
-    box-shadow: var(--win-color) 0px 54px 55px, var(--win-color) 0px -12px 30px, var(--win-color) 0px 4px 6px, var(--win-color) 0px 12px 13px, var(--win-color) 0px -3px 5px;
+    
     border-radius: 20px;
-    background-color: var(--win-color);
-    color: hsl(0, 66%, 42%);
+    
 }
 
-.win_modal.show {
+.win_modal {
+    box-shadow: var(--win-color) 0px 54px 55px, var(--win-color) 0px -12px 30px, var(--win-color) 0px 4px 6px, var(--win-color) 0px 12px 13px, var(--win-color) 0px -3px 5px;
+    background-color: var(--win-color);
+    color: var(--lose-color);
+}
+
+.lose_modal {
+    background-color: var(--lose-color);
+    color: var(--win-color);
+}
+
+.win_modal.show,
+.lose_modal.show {
     left: 50%;
     top: 40%;
     transition: var(--transition);
@@ -24,11 +36,19 @@
     animation-fill-mode: forwards;
 }
 
-.win_modal h1 {
-    background-color: var(--win-color);
+.win_modal h1,
+.lose_modal h1 {
     padding-block: 1em;
     padding-inline: 3em;
     border-radius: 20px;
+}
+
+.win_modal h1 {
+    background-color: var(--win-color);
+}
+
+.lose_modal h1 {
+    background-color: var(--lose-color);
 }
 
 @keyframes grow {
