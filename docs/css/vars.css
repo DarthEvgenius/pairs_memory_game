@@ -1,9 +1,13 @@
 :root {
     --card-back-color: hsl(0, 1%, 25%);
     --card-bg-color: hsl(0, 0%, 50%);
+    --start-bg-color: hsl(0, 0%, 90%);
     --btn-color:  hsl(0, 0%, 66%);
     --win-color: hsl(197, 82%, 89%);
     --lose-color: hsl(0, 66%, 42%);
+
+    --bd-rad: 20px;
+    
     --transition: all 1s cubic-bezier(.45,.21,0.3,1.3);
     --transition-linear: scale 500ms linear;
 }

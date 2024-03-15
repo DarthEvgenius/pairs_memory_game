@@ -57,6 +57,19 @@
     transform: rotateY(0deg);
     backface-visibility: hidden;
 
+    background-image:
+    linear-gradient(
+            transparent 50%,            
+            hsl(0, 0%, 66%, 0.5) 50%
+        ),
+        linear-gradient(
+            90deg,
+            var(--card-bg-color) 50%,
+            var(--card-back-color) 50%
+
+        );
+    background-size: 0.39em 0.39em;
+
     /* for easy development */
     /* opacity: .5; */
 }
@@ -111,4 +124,7 @@
     font-size: 3rem;
     font-weight: bold;
     font-family: sans-serif;
+    background-color: var(--start-bg-color);;
+    border: 3px solid var(--btn-color);
+    border-radius: var(--bd-rad);
   }

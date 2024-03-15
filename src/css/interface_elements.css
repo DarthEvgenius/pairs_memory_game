@@ -3,7 +3,7 @@
 .btn {    
     padding-inline: 2em;
     padding-block: 1em;
-    border-radius: 20px;
+    border-radius: var(--bd-rad);
     background-color: var(--btn-color);
     cursor: pointer;
     transition: background-color 0.3s;
@@ -26,8 +26,8 @@
 
 .start_controls {
     align-self: center;
-    border-radius: 20px;
-    background-color: hsl(0, 0%, 90%);
+    border-radius: var(--bd-rad);
+    background-color: var(--start-bg-color);
     padding: 0.3em;
     display: grid;
     gap: 0.75em;

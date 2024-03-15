@@ -2,6 +2,7 @@
 :root {
     font-size: clamp(1rem, 0.5rem + 2vw, 1.75rem);
     font-family: sans-serif;
+    overflow-x: hidden;
 }
 
 body {
