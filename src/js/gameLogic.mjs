@@ -3,7 +3,7 @@ import { winInterface, loseInterface, createTimerContainer } from './interface.m
 import { createTimer, updateTimer } from './timer.mjs';
 import { resetGame } from "./resetGame.mjs";
 
-export function startGame(startInterface, gameConditions) {
+export function startGame(interfaceObject, gameConditions) {
     gameConditions.waiter = false;
     // array for two opened cards in one turn
     let selectedCards = [];
@@ -11,25 +11,25 @@ export function startGame(startInterface, gameConditions) {
     let timerID = null;
 
     if (gameConditions.isTimer) {
-        const timerContainer = createTimerContainer(startInterface);
-        const timerCounter = createTimer(startInterface);
+        const timerContainer = createTimerContainer(interfaceObject);
+        const timerCounter = createTimer(interfaceObject);
         
         timerID = setInterval(() => {
             if (!updateTimer(timerContainer, timerCounter, timerID)) {
                 // stop user's interactions with game field
-                startInterface.gameContainer.style.pointerEvents = 'none';
-                loseInterface(startInterface);
+                interfaceObject.gameContainer.style.pointerEvents = 'none';
+                loseInterface(interfaceObject);
                 setTimeout(() => {
-                    resetGame(startInterface);
+                    resetGame(interfaceObject);
                 }, 4000);
             }
             
         }, 1000);
 
-        startInterface.resetBtn.addEventListener('click', function() {
+        interfaceObject.resetBtn.addEventListener('click', function() {
             clearInterval(timerID);
         });
-        startInterface.refreshBtn.addEventListener('click', function() {
+        interfaceObject.refreshBtn.addEventListener('click', function() {
             clearInterval(timerID);
         });
     } else {
@@ -40,7 +40,7 @@ export function startGame(startInterface, gameConditions) {
     }
     
     // main logic
-    startInterface.gameContainer.addEventListener('click', function game(e) {
+    interfaceObject.gameContainer.addEventListener('click', function game(e) {
         // selects only click inside card
         const target = e.target.closest('.game_card');
 
@@ -71,10 +71,10 @@ export function startGame(startInterface, gameConditions) {
                     clearInterval(timerID);
                     selectedCards.length = 0;
                     gameConditions.waiter = true; 
-                    startInterface.gameContainer.removeEventListener('click', game);
-                    winInterface(startInterface);
+                    interfaceObject.gameContainer.removeEventListener('click', game);
+                    winInterface(interfaceObject);
                     setTimeout(() => {
-                        resetGame(startInterface);
+                        resetGame(interfaceObject);
                     }, 4000);
                 }
             } else {

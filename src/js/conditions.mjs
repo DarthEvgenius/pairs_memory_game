@@ -6,9 +6,9 @@
     // number of pairs (difficulty level)
 
 
-export function createGameConditions(startInterface) {
-    const pairsAmount = +startInterface.difficulty.value;
-    const isTimer = startInterface.timer.checked;
+export function createGameConditions(interfaceObject) {
+    const pairsAmount = +interfaceObject.difficulty.value;
+    const isTimer = interfaceObject.timer.checked;
     
     const arr = Array.from({length: pairsAmount}, (elem, i) => i + 1);
     return {

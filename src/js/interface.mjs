@@ -1,19 +1,11 @@
 // Interface staff
-
 import { resetInterface } from "./resetGame.mjs";
 
-export function createStartInterface() {
+// main interface object
+export function createInterfaceObject() {
     const gameContainer = document.querySelector('.game_container');
-    
     const gameControls = document.querySelector('.game_controls');
-    gameControls.style.display = 'grid';
-    gameControls.classList.add('hide');
-    
-    // start controls element
     const startControls = document.querySelector('.start_controls');
-    startControls.classList.remove('hide');
-    
-    // get game options
     const difficultySelect = startControls.querySelector('#difficulty_options');
     const timer = startControls.querySelector('#timer_options');
 
@@ -30,15 +22,28 @@ export function createStartInterface() {
     };
 }
 
-// hide start controls and show game controls
-export function createGameInterface(startInterface) {
-    // show refresh/reset buttons
-    // hide start buttons
-    startInterface.startControls.classList.add('hide');    
-    startInterface.gameControls.classList.remove('hide');
+// hide game controls and show start options
+export function createStartInterface(interfaceObject) {
+    // hide game controls
+    // set grid for the initial case
+    interfaceObject.gameControls.style.display = 'grid';
+    interfaceObject.gameControls.classList.add('hide');
+    // show start options
+    interfaceObject.startControls.classList.remove('hide');
+
 }
 
-export function createTimerContainer(startInterface) {
+// hide start controls and show game controls
+export function createGameInterface(interfaceObject) {
+    // show refresh/reset buttons
+    // hide start buttons
+    interfaceObject.startControls.classList.add('hide');    
+    interfaceObject.gameControls.classList.remove('hide');
+}
+
+// create timer DOM structure
+// returns timer's inner element for seconds display
+export function createTimerContainer(interfaceObject) {
     let container = document.querySelector('.timer_container');
     if (!container) {
         container = document.createElement('div');
@@ -48,17 +53,17 @@ export function createTimerContainer(startInterface) {
     }
 
     const timer = document.createElement('span');
-    timer.textContent = startInterface.timerRange;
+    timer.textContent = interfaceObject.timerRange;
     container.append(timer);
-    startInterface.gameControls.prepend(container);
+    interfaceObject.gameControls.prepend(container);
     return timer;    
 }
 
 // creates new game field 
 // depends on difficulty
-export function createGameField(gameConditions, startInterface) {
+export function createGameField(interfaceObject, gameConditions) {
     // reset conditions and DOM element's classes
-    resetInterface(startInterface);
+    resetInterface(interfaceObject);
     
     // save original array
     const len = gameConditions.pairsArray.length;
@@ -67,7 +72,7 @@ export function createGameField(gameConditions, startInterface) {
 
     // if difficulty level is hard - change container
     if (len == 20) {
-        startInterface.gameContainer.classList.add('game_container--hard');
+        interfaceObject.gameContainer.classList.add('game_container--hard');
     }
 
     // create cards
@@ -76,20 +81,20 @@ export function createGameField(gameConditions, startInterface) {
         // use exactly array, as each iteration it's getting shorter
         const index = Math.floor(Math.random() * arr.length);
         const card = createCard(arr[index]);
-        startInterface.gameContainer.append(card);        
+        interfaceObject.gameContainer.append(card);        
         // each time delete element
         arr.splice(index, 1);
     }
 }
 
 // handle win/lose cases
-export function winInterface(startInterface) {
-    startInterface.gameContainer.classList.add('win');
+export function winInterface(interfaceObject) {
+    interfaceObject.gameContainer.classList.add('win');
     document.querySelector('.win_modal').classList.add('show');
 }
 
-export function loseInterface(startInterface) {
-    startInterface.gameContainer.classList.add('lose');
+export function loseInterface(interfaceObject) {
+    interfaceObject.gameContainer.classList.add('lose');
     document.querySelector('.lose_modal').classList.add('show');
 }
 

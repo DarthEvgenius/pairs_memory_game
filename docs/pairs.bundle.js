@@ -20,9 +20,9 @@ __webpack_require__.r(__webpack_exports__);
     // number of pairs (difficulty level)
 
 
-function createGameConditions(startInterface) {
-    const pairsAmount = +startInterface.difficulty.value;
-    const isTimer = startInterface.timer.checked;
+function createGameConditions(interfaceObject) {
+    const pairsAmount = +interfaceObject.difficulty.value;
+    const isTimer = interfaceObject.timer.checked;
     
     const arr = Array.from({length: pairsAmount}, (elem, i) => i + 1);
     return {
@@ -57,7 +57,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function startGame(startInterface, gameConditions) {
+function startGame(interfaceObject, gameConditions) {
     gameConditions.waiter = false;
     // array for two opened cards in one turn
     let selectedCards = [];
@@ -65,25 +65,25 @@ function startGame(startInterface, gameConditions) {
     let timerID = null;
 
     if (gameConditions.isTimer) {
-        const timerContainer = (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.createTimerContainer)(startInterface);
-        const timerCounter = (0,_timer_mjs__WEBPACK_IMPORTED_MODULE_2__.createTimer)(startInterface);
+        const timerContainer = (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.createTimerContainer)(interfaceObject);
+        const timerCounter = (0,_timer_mjs__WEBPACK_IMPORTED_MODULE_2__.createTimer)(interfaceObject);
         
         timerID = setInterval(() => {
             if (!(0,_timer_mjs__WEBPACK_IMPORTED_MODULE_2__.updateTimer)(timerContainer, timerCounter, timerID)) {
                 // stop user's interactions with game field
-                startInterface.gameContainer.style.pointerEvents = 'none';
-                (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.loseInterface)(startInterface);
+                interfaceObject.gameContainer.style.pointerEvents = 'none';
+                (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.loseInterface)(interfaceObject);
                 setTimeout(() => {
-                    (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(startInterface);
+                    (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(interfaceObject);
                 }, 4000);
             }
             
         }, 1000);
 
-        startInterface.resetBtn.addEventListener('click', function() {
+        interfaceObject.resetBtn.addEventListener('click', function() {
             clearInterval(timerID);
         });
-        startInterface.refreshBtn.addEventListener('click', function() {
+        interfaceObject.refreshBtn.addEventListener('click', function() {
             clearInterval(timerID);
         });
     } else {
@@ -94,7 +94,7 @@ function startGame(startInterface, gameConditions) {
     }
     
     // main logic
-    startInterface.gameContainer.addEventListener('click', function game(e) {
+    interfaceObject.gameContainer.addEventListener('click', function game(e) {
         // selects only click inside card
         const target = e.target.closest('.game_card');
 
@@ -125,10 +125,10 @@ function startGame(startInterface, gameConditions) {
                     clearInterval(timerID);
                     selectedCards.length = 0;
                     gameConditions.waiter = true; 
-                    startInterface.gameContainer.removeEventListener('click', game);
-                    (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.winInterface)(startInterface);
+                    interfaceObject.gameContainer.removeEventListener('click', game);
+                    (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_1__.winInterface)(interfaceObject);
                     setTimeout(() => {
-                        (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(startInterface);
+                        (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(interfaceObject);
                     }, 4000);
                 }
             } else {
@@ -154,6 +154,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createGameField: () => (/* binding */ createGameField),
 /* harmony export */   createGameInterface: () => (/* binding */ createGameInterface),
+/* harmony export */   createInterfaceObject: () => (/* binding */ createInterfaceObject),
 /* harmony export */   createStartInterface: () => (/* binding */ createStartInterface),
 /* harmony export */   createTimerContainer: () => (/* binding */ createTimerContainer),
 /* harmony export */   loseInterface: () => (/* binding */ loseInterface),
@@ -164,18 +165,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function createStartInterface() {
+// main interface object
+function createInterfaceObject() {
     const gameContainer = document.querySelector('.game_container');
-    
     const gameControls = document.querySelector('.game_controls');
-    gameControls.style.display = 'grid';
-    gameControls.classList.add('hide');
-    
-    // start controls element
     const startControls = document.querySelector('.start_controls');
-    startControls.classList.remove('hide');
-    
-    // get game options
     const difficultySelect = startControls.querySelector('#difficulty_options');
     const timer = startControls.querySelector('#timer_options');
 
@@ -192,15 +186,28 @@ function createStartInterface() {
     };
 }
 
-// hide start controls and show game controls
-function createGameInterface(startInterface) {
-    // show refresh/reset buttons
-    // hide start buttons
-    startInterface.startControls.classList.add('hide');    
-    startInterface.gameControls.classList.remove('hide');
+// hide game controls and show start options
+function createStartInterface(interfaceObject) {
+    // hide game controls
+    // set grid for the initial case
+    interfaceObject.gameControls.style.display = 'grid';
+    interfaceObject.gameControls.classList.add('hide');
+    // show start options
+    interfaceObject.startControls.classList.remove('hide');
+
 }
 
-function createTimerContainer(startInterface) {
+// hide start controls and show game controls
+function createGameInterface(interfaceObject) {
+    // show refresh/reset buttons
+    // hide start buttons
+    interfaceObject.startControls.classList.add('hide');    
+    interfaceObject.gameControls.classList.remove('hide');
+}
+
+// create timer DOM structure
+// returns timer's inner element for seconds display
+function createTimerContainer(interfaceObject) {
     let container = document.querySelector('.timer_container');
     if (!container) {
         container = document.createElement('div');
@@ -210,17 +217,17 @@ function createTimerContainer(startInterface) {
     }
 
     const timer = document.createElement('span');
-    timer.textContent = startInterface.timerRange;
+    timer.textContent = interfaceObject.timerRange;
     container.append(timer);
-    startInterface.gameControls.prepend(container);
+    interfaceObject.gameControls.prepend(container);
     return timer;    
 }
 
 // creates new game field 
 // depends on difficulty
-function createGameField(gameConditions, startInterface) {
+function createGameField(interfaceObject, gameConditions) {
     // reset conditions and DOM element's classes
-    (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_0__.resetInterface)(startInterface);
+    (0,_resetGame_mjs__WEBPACK_IMPORTED_MODULE_0__.resetInterface)(interfaceObject);
     
     // save original array
     const len = gameConditions.pairsArray.length;
@@ -229,7 +236,7 @@ function createGameField(gameConditions, startInterface) {
 
     // if difficulty level is hard - change container
     if (len == 20) {
-        startInterface.gameContainer.classList.add('game_container--hard');
+        interfaceObject.gameContainer.classList.add('game_container--hard');
     }
 
     // create cards
@@ -238,20 +245,20 @@ function createGameField(gameConditions, startInterface) {
         // use exactly array, as each iteration it's getting shorter
         const index = Math.floor(Math.random() * arr.length);
         const card = createCard(arr[index]);
-        startInterface.gameContainer.append(card);        
+        interfaceObject.gameContainer.append(card);        
         // each time delete element
         arr.splice(index, 1);
     }
 }
 
 // handle win/lose cases
-function winInterface(startInterface) {
-    startInterface.gameContainer.classList.add('win');
+function winInterface(interfaceObject) {
+    interfaceObject.gameContainer.classList.add('win');
     document.querySelector('.win_modal').classList.add('show');
 }
 
-function loseInterface(startInterface) {
-    startInterface.gameContainer.classList.add('lose');
+function loseInterface(interfaceObject) {
+    interfaceObject.gameContainer.classList.add('lose');
     document.querySelector('.lose_modal').classList.add('show');
 }
 
@@ -339,19 +346,24 @@ __webpack_require__.r(__webpack_exports__);
 // reset game interface DOM elements
 
 
-function resetInterface(startInterface) {
+function resetInterface(interfaceObject) {
+    // hide win/lose modals
     document.querySelector('.win_modal').classList.remove('show');
     document.querySelector('.lose_modal').classList.remove('show');
 
+    // if there was timer - remove
+    document.querySelector('.timer_container')?.remove();
+
+    // refresh game container
     const newContainer = document.createElement('div');
     newContainer.classList.add('game_container');
-    startInterface.gameContainer.replaceWith(newContainer);
-    return startInterface.gameContainer = newContainer;
+    interfaceObject.gameContainer.replaceWith(newContainer);
+    return interfaceObject.gameContainer = newContainer;
 }
 
-function resetGame(startInterface) {
-    resetInterface(startInterface);    
-    (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();
+function resetGame(interfaceObject) {
+    resetInterface(interfaceObject);    
+    (0,_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)(interfaceObject);
 }
 
 /***/ }),
@@ -370,8 +382,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _interface_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./interface.mjs */ "./src/js/interface.mjs");
 
 
-function createTimer(startInterface) {
-    let timer = startInterface.timerRange;
+function createTimer(interfaceObject) {
+    let timer = interfaceObject.timerRange;
     return function() {
         return --timer;
     }
@@ -466,18 +478,23 @@ __webpack_require__.r(__webpack_exports__);
 // start button,
 // reset button,
 // difficulty select element
-const startInterface = (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)();
+// const startInterface = createStartInterface();
+
+const interfaceObject = (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createInterfaceObject)();
+console.log(interfaceObject);
+
+(0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)(interfaceObject);
 
 
-startInterface.startBtn.onclick = newGame;
-startInterface.refreshBtn.onclick = newGame;
-startInterface.resetBtn.addEventListener('click', function() {  
+interfaceObject.startBtn.onclick = newGame;
+interfaceObject.refreshBtn.onclick = newGame;
+interfaceObject.resetBtn.addEventListener('click', function() {  
     
-    const animated = startInterface.gameContainer;
+    const animated = interfaceObject.gameContainer;
     animated.classList.add('hide');
     
     setTimeout(() => {
-        (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(startInterface);
+        (0,_js_resetGame_mjs__WEBPACK_IMPORTED_MODULE_3__.resetGame)(interfaceObject);
     }, 500);
 });
 
@@ -487,10 +504,10 @@ function newGame() {
         // winCounter
         // waiter
         // number of pairs (difficulty level)
-    let gameConditions = (0,_js_conditions_mjs__WEBPACK_IMPORTED_MODULE_1__.createGameConditions)(startInterface);
-    (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createGameInterface)(startInterface, gameConditions);
-    (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createGameField)(gameConditions, startInterface);
-    (0,_js_gameLogic_mjs__WEBPACK_IMPORTED_MODULE_2__.startGame)(startInterface, gameConditions);
+    let gameConditions = (0,_js_conditions_mjs__WEBPACK_IMPORTED_MODULE_1__.createGameConditions)(interfaceObject);
+    (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createGameInterface)(interfaceObject, gameConditions);
+    (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createGameField)(interfaceObject, gameConditions);
+    (0,_js_gameLogic_mjs__WEBPACK_IMPORTED_MODULE_2__.startGame)(interfaceObject, gameConditions);
 }
 })();
 

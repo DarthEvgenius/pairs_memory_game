@@ -1,4 +1,4 @@
-import { createStartInterface, createGameField, createGameInterface } from './js/interface.mjs';
+import { createInterfaceObject, createStartInterface, createGameField, createGameInterface } from './js/interface.mjs';
 import { createGameConditions } from './js/conditions.mjs';
 import { startGame } from './js/gameLogic.mjs';
 import { resetGame } from "./js/resetGame.mjs";
@@ -7,18 +7,23 @@ import { resetGame } from "./js/resetGame.mjs";
 // start button,
 // reset button,
 // difficulty select element
-const startInterface = createStartInterface();
+// const startInterface = createStartInterface();
+
+const interfaceObject = createInterfaceObject();
+console.log(interfaceObject);
+
+createStartInterface(interfaceObject);
 
 
-startInterface.startBtn.onclick = newGame;
-startInterface.refreshBtn.onclick = newGame;
-startInterface.resetBtn.addEventListener('click', function() {  
+interfaceObject.startBtn.onclick = newGame;
+interfaceObject.refreshBtn.onclick = newGame;
+interfaceObject.resetBtn.addEventListener('click', function() {  
     
-    const animated = startInterface.gameContainer;
+    const animated = interfaceObject.gameContainer;
     animated.classList.add('hide');
     
     setTimeout(() => {
-        resetGame(startInterface);
+        resetGame(interfaceObject);
     }, 500);
 });
 
@@ -28,8 +33,8 @@ function newGame() {
         // winCounter
         // waiter
         // number of pairs (difficulty level)
-    let gameConditions = createGameConditions(startInterface);
-    createGameInterface(startInterface, gameConditions);
-    createGameField(gameConditions, startInterface);
-    startGame(startInterface, gameConditions);
+    let gameConditions = createGameConditions(interfaceObject);
+    createGameInterface(interfaceObject, gameConditions);
+    createGameField(interfaceObject, gameConditions);
+    startGame(interfaceObject, gameConditions);
 }
