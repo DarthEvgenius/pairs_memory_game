@@ -3,17 +3,11 @@ import { createGameConditions } from './js/conditions.mjs';
 import { startGame } from './js/gameLogic.mjs';
 import { resetGame } from "./js/resetGame.mjs";
 
-// game container
-// start button,
-// reset button,
-// difficulty select element
-// const startInterface = createStartInterface();
-
+// create main interface object
 const interfaceObject = createInterfaceObject();
-console.log(interfaceObject);
 
+// main game menu
 createStartInterface(interfaceObject);
-
 
 interfaceObject.startBtn.onclick = newGame;
 interfaceObject.refreshBtn.onclick = newGame;

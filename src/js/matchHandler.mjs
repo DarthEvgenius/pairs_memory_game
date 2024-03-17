@@ -9,9 +9,7 @@ export function matchCounter() {
             e.classList.add('match');
         });
         selectedCards.length = 0;
-
-        counter++;
-        
+        counter++;        
         return counter == gameConditions.winCounter;
     };
 }

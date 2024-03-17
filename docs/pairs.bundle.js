@@ -164,7 +164,6 @@ __webpack_require__.r(__webpack_exports__);
 // Interface staff
 
 
-
 // main interface object
 function createInterfaceObject() {
     const gameContainer = document.querySelector('.game_container');
@@ -379,9 +378,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   createTimer: () => (/* binding */ createTimer),
 /* harmony export */   updateTimer: () => (/* binding */ updateTimer)
 /* harmony export */ });
-/* harmony import */ var _interface_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./interface.mjs */ "./src/js/interface.mjs");
-
-
+// get timer initial value
+// returns timerCounter function with scoped value
 function createTimer(interfaceObject) {
     let timer = interfaceObject.timerRange;
     return function() {
@@ -389,6 +387,8 @@ function createTimer(interfaceObject) {
     }
 }
 
+// each call updates timer counter
+// puts new value into DOM counter container
 function updateTimer(timerContainer, timerCounter, timerID) {
     const counter = timerCounter();
     timerContainer.textContent = counter;
@@ -474,17 +474,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// game container
-// start button,
-// reset button,
-// difficulty select element
-// const startInterface = createStartInterface();
-
+// create main interface object
 const interfaceObject = (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createInterfaceObject)();
-console.log(interfaceObject);
 
+// main game menu
 (0,_js_interface_mjs__WEBPACK_IMPORTED_MODULE_0__.createStartInterface)(interfaceObject);
-
 
 interfaceObject.startBtn.onclick = newGame;
 interfaceObject.refreshBtn.onclick = newGame;
